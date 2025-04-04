@@ -12,12 +12,13 @@ internal class Program
                 $"Press the number that corresponds to the option you want to choose and then press enter.{Environment.NewLine}" +
                 $"0. Quit application.{Environment.NewLine}" +
                 $"1. See ticket price.{Environment.NewLine}" +
-                $"2. {Environment.NewLine}" +
-                $"3. ");
-            //Nullable string because the user might just hit enter.
+                $"2. Write message 10 times.{Environment.NewLine}" +
+                $"3. Split up sentence with atleast 3 words.");
+            //Nullable string because the user might give a null value.
             string? input = Console.ReadLine();
-            //Declaring bool for TryParse that resets when the loop runs again.
+            //Declaring bool for TryParse that resets when the loop runs again and guest variable 
             bool success;
+
             //Clearing console to make it less cluttered.
             Console.Clear();
             
@@ -29,11 +30,12 @@ internal class Program
                     return;
 
                 case "1":
+                    int guests;
                     do
                     {
                         //Max 20 guests to give some reasonable upper end.
                         Console.WriteLine("How many guests? (MAX 20)");
-                        success = int.TryParse(Console.ReadLine(), out int guests);
+                        success = int.TryParse(Console.ReadLine(), out guests);
                         //Checks if TryParse failed. If it failed or if the number is unreasonable(ex -12, 1500) it warns the user and loops;
                         if (!success || guests > 20 || guests < 0)
                         {
@@ -81,19 +83,36 @@ internal class Program
 
                         }
                         //Step out of case if everything went right.
-                    } while (!success);
-
+                    } while (!success || guests > 20);
                     break;
 
                 case "2":
-
-
+                    //Checks if the string given by the customer is null,empty string or just spaces. Repeats code until a valid answer.
+                    do {
+                        Console.WriteLine("Now write your message and it will be repeated 10 times!(Must not be only whitespace)");
+                        input = Console.ReadLine();
+                    } while (string.IsNullOrWhiteSpace(input));
+                    //Writes out the message given by the customer on the same line 10 times.
+                    for (int i = 1; i <= 10; i++)
+                    {
+                        Console.Write($"{i}.{input} ");
+                    }
                     break;
 
                 case "3":
-                    break;
-
-                case "4":
+                    //Asks user for input and creates a list with the words.
+                    Console.WriteLine("Write a sentence with atleast 3 words and you will get the third word back.");
+                    //Nullable input because VS warned me that it might be null, might be excessive?
+                    var inputSplit = Console.ReadLine()?.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    //Check for null again because of vs warning also making sure that the inputSplit contains atleast 3 words.
+                    while (inputSplit == null || inputSplit.Length < 3)
+                    {
+                        //Error message and asks the user again until they give a valid answer.
+                        Console.WriteLine("Your sentence is not the minimum 3 words that are required.");
+                        inputSplit = Console.ReadLine()?.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    }
+                    //Gives user their word in index 2 (3rd word of array).
+                    Console.WriteLine("Here is your word: " + inputSplit[2]);
                     break;
 
                 default:
