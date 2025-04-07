@@ -14,7 +14,7 @@ internal class Program
                 $"1. See ticket price.{Environment.NewLine}" +
                 $"2. Write message 10 times.{Environment.NewLine}" +
                 $"3. Split up sentence with atleast 3 words.");
-            //Nullable string because the user might give a null value.
+            //Nullable string because the user might give a null value according to VS.
             string? input = Console.ReadLine();
             //Declaring bool for TryParse that resets when the loop runs again and guest variable 
             bool success;
